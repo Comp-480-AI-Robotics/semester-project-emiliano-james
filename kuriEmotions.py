@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+emotions = {'negative': (0, 0, 255), 'positive': (0, 255, 255), 'neutral': (128, 128, 128)}
 img = cv2.imread('./kuri.jpg')
 
 # resize image
@@ -17,9 +18,32 @@ img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
 #     if cnt.Area > 1000:
 #         ellipse = cv2.fitEllipse(cnt)
 
-
 # draw heart circle
-img = cv2.circle(img, (width//2, height - 100), 60, (255, 0, 0), -1)
+img = cv2.circle(img, (width//2, height - 100), 60, (128, 128, 128), -1)
 cv2.imshow('kuri', img)
 
+
+def changeEmotion(emotion):
+    color = emotions[emotion]
+    cv2.circle(img, (width // 2, height - 100), 60, color, -1)
+    cv2.imshow('kuri', img)
+
+
+emotion = input("Pick emotion (positive, negative, neutral): ")
+changeEmotion(emotion)
+
 cv2.waitKey(0)
+
+
+# This is the structure I envisioned but image won't show
+# def changeEmotion(emotion):
+#     color = emotions[emotion]
+#     cv2.circle(img, (width // 2, height - 100), 60, color, -1)
+#     cv2.imshow('kuri', img)
+#
+#
+# if __name__ == "__main__":
+#     cv2.imshow('kuri', img)
+#     while True:
+#         emotion = input("Pick emotion (positive, negative, neutral): ")
+#         changeEmotion(emotion)
