@@ -15,10 +15,13 @@ img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
 greyImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 res, thresh = cv2.threshold(greyImg, 120, 255, 0)
 newImg, contours, hier = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+eyes = []
 for cnt in contours:
     cntArea = cv2.contourArea(cnt)
     if 5000 < cntArea < 10000:
-        cv2.drawContours(img, [cnt], -1, (0, 0, 255), thickness=2)
+        eyes = cnt
+        ellipse = cv2.fitEllipse(eyes)
+        img = cv2.ellipse(img, ellipse, (0, 0, 0 ), thickness=-1)
 
 # draw heart circle
 img = cv2.circle(img, (width//2, height - 100), 60, (128, 128, 128), -1)
