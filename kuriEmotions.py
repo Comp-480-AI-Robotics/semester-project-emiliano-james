@@ -16,12 +16,14 @@ left_axes = int(left_eye[1][0]) // 2 + 2, int(left_eye[1][1]) // 2 + 2
 theta = 178.60519409179688
 
 
-def drawEyes(emotion, img):
-    # gray mask
-    img = cv2.ellipse(img, left_center, left_axes, theta, 0, 360, (245, 245, 245), thickness=-1)
-    img = cv2.ellipse(img, right_center, right_axes, theta, 0, 360, (245, 245, 245), thickness=-1)
+def clearEyes(img):
+    img = cv2.ellipse(img, left_center, (left_axes[0] + 12, left_axes[1] + 12), theta, 0, 360, (245, 245, 245),
+                      thickness=-1)
+    img = cv2.ellipse(img, right_center, (right_axes[0] + 12, right_axes[1] + 12), theta, 0, 360, (245, 245, 245),
+                      thickness=-1)
 
-    # actual eye shape
+
+def drawEyes(emotion, img):
     img = cv2.ellipse(img, left_center, left_axes, theta, emotions[emotion][1], emotions[emotion][2], (0, 0, 0),
                       thickness=emotions[emotion][3])
     img = cv2.ellipse(img, right_center, right_axes, theta, emotions[emotion][1], emotions[emotion][2], (0, 0, 0),
@@ -58,6 +60,7 @@ if __name__ == '__main__':
         if emotion.lower() == "q":
             break
 
+        clearEyes(img)
         drawEyes(emotion, img)
 
         circleColor = emotions[emotion.lower()][0]
