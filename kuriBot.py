@@ -2,7 +2,7 @@ import cv2
 import time
 
 
-class kuriGUI:
+class kuriBot:
 
     def __init__(self):
 
@@ -69,7 +69,7 @@ class kuriGUI:
 
 
 if __name__ == '__main__':
-    kuri = kuriGUI()
+    kuri = kuriBot()
     kuri.runKuri()
 
     cv2.destroyAllWindows()
