@@ -1,5 +1,3 @@
-# Install SpeechRecognition and PyAudio
-
 import speech_recognition as sr
 
 class SpeechRecognizer:

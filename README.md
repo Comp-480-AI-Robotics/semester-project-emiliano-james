@@ -21,8 +21,8 @@ pip install -r requirements.txt
 python3 KuriProgram.py
 ```
 ## Contributors
-[Anh Nguyen](https://github.com/theang66)
-[Lily Irvin](https://github.com/lirvin123)
-[Ryan Specht](https://github.com/rspecht)
+[Anh Nguyen](https://github.com/theang66) <br>
+[Lily Irvin](https://github.com/lirvin123) <br>
+[Ryan Specht](https://github.com/rspecht) 
 ## Acknowledgements
 Special thanks to Professor Susan Fox for her advice and support throughout this project!
