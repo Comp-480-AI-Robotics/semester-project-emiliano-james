@@ -8,12 +8,14 @@ Authors: Anh Nguyen, Lily Irvin, Ryan Specht
 
 import time
 import random
-import tkinter as tk
 from tkinter import *
-from PIL import ImageTk, Image
-import tkinter.filedialog as tkFileDialog
+# import Image, ImageTk
+import numpy as np
+import cv2
 
-from kuriBot import kuriBot
+from KuriBot import KuriBot
+from SentimentDetector import SentimentDetector
+from SpeechRecognizer import SpeechRecognizer
 
 
 class KuriGUI:
@@ -24,12 +26,13 @@ class KuriGUI:
         self.root = Tk()
         self.root.title("Kuri Program")
         self.canvas = None
-        self.canvasSize = 700
+        self.canvasSize = 300
         self.canvasPadding = 10
-        self.speech = False
-        self.chat = False
+        self.sd = SentimentDetector()
+        self.kuri = KuriBot("neutral")
 
     def welcomeScreen(self):
+        # TODO: close first screen completely
         self.welcome = Canvas(self.root,
                              width=self.canvasSize + self.canvasPadding,
                              height=self.canvasSize + self.canvasPadding)
@@ -40,29 +43,35 @@ class KuriGUI:
         self.speechButton.grid(row=0, column=1)
         self.chatButton.grid(row=1, column=1)
         buttonFrame.grid(row=1, column=1)
-        mainloop()
+        # mainloop()
 
     def useSpeech(self):
-        self.speech = True
-        # self.kuriScreen()
-        kuri = kuriBot()
-        kuri.runKuri()
-        # if self.speech:
+        self.root.destroy()
+        self.sr = SpeechRecognizer()
+        # self.kuri.runKuri()
+        txt = self.sr.getSpeech("Talk to me! (Press 'q' to quit) ")
+        while True:
+            if txt:
+                sentiment = self.sd.getSentiment(txt)
+                self.kuri = KuriBot(sentiment.lower())
+                self.kuri.runKuri()
+                txt = self.sr.getSpeech("Talk to me! (Press 'q' to quit) ")
+            else:
+                txt = self.sr.getSpeech("Could you say that again? (Press 'q' to quit) ")
+
 
     def useChat(self):
-        self.chat = True
-        self.kuriScreen()
-        # if self.chat:
-
-    def kuriScreen(self):
-        self.welcome.destroy()
-        self.kuri = Canvas(self.root)
-        path = "kuri_resized.jpg"
-        img = ImageTk.PhotoImage(Image.open(path))
-        panel = tk.Label(self.kuri, image=img)
-        panel.pack(side="bottom", fill="both", expand="yes")
-        self.kuri.pack()
-        mainloop()
+        self.root.destroy()
+        # self.kuri.runKuri()
+        txt = input("Talk to me! (Press 'q' to quit) ")
+        while True:
+            if txt == 'q':
+                quit()
+            else:
+                sentiment = self.sd.getSentiment(txt)
+                self.kuri = KuriBot(sentiment.lower())
+                self.kuri.runKuri()
+                txt = input("Talk to me! (Press 'q' to quit) ")
 
     #     self.root = Tk()
     #     self.root.title("Susan Fox's Grid World")
@@ -669,3 +678,4 @@ def RunKuri():
 # into the interactive shell.
 if __name__ == "__main__":
     RunKuri()
+    mainloop()

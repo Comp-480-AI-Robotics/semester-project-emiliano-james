@@ -2,10 +2,12 @@ import cv2
 import time
 
 # format: [circle color, start eye angle, end eye angle, eye thickness]
-SENTIMENT = {'negative': [(159, 159, 255), 0, 360, -1], 'positive': [(137, 240, 255), 0, 180, 20],
-             'neutral': [(200, 200, 200), 0, 360, -1]}
+# TODO: change attributes for somewhat negative and somewhat positive
+SENTIMENT = {'very negative': [(159, 159, 255), 0, 360, -1], 'very positive': [(137, 240, 255), 0, 180, 20],
+             'neutral': [(200, 200, 200), 0, 360, -1], 'somewhat negative': [(159, 159, 255), 0, 360, -1],
+             'somewhat positive': [(137, 240, 255), 0, 180, 20]}
 
-class kuriBot:
+class KuriBot:
 
     def __init__(self, sentiment):
 
@@ -73,10 +75,10 @@ class kuriBot:
         cv2.destroyAllWindows()
 
 
-# # Example of how to instantiate 
+# # Example of how to instantiate
 # if __name__ == '__main__':
 #     sentiment = 'positive'
-#     kuri = kuriBot(sentiment)
+#     kuri = KuriBot(sentiment)
 #     kuri.runKuri()
 #
 #     cv2.destroyAllWindows()

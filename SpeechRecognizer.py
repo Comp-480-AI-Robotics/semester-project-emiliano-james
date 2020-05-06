@@ -6,10 +6,10 @@ class SpeechRecognizer:
     def __init__(self):
         self.recognizer = sr.Recognizer()
 
-    def getSpeech(self):
+    def getSpeech(self, prompt):
         # obtain audio from the microphone
         with sr.Microphone() as source:
-            print("Say something!")
+            print(prompt)
             audio = self.recognizer.listen(source)
 
         # recognize speech using Google Speech Recognition
