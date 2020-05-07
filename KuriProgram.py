@@ -51,10 +51,10 @@ class KuriGUI:
         txt = self.sr.getSpeech("Talk to me! (Press 'q' to quit) ")
         while True:
             # TODO: fix key press
-            self.root.bind("<KeyPress>", self.quitKey)
+            # self.root.bind("<KeyPress>", self.quitKey)
             if txt:
                 sentiment = self.sd.getSentiment(txt)
-                self.kuri = KuriBot(sentiment.lower())
+                self.kuri.setSentiment(sentiment.lower())
                 self.kuri.runKuri()
                 txt = self.sr.getSpeech("Talk to me! (Press 'q' to quit) ")
             else:
@@ -70,7 +70,7 @@ class KuriGUI:
                 quit()
             else:
                 sentiment = self.sd.getSentiment(txt)
-                self.kuri = KuriBot(sentiment.lower())
+                self.kuri.setSentiment(sentiment.lower())
                 self.kuri.runKuri()
                 txt = input("Talk to me! (Press 'q' to quit) ")
 

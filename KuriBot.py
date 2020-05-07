@@ -1,8 +1,4 @@
 import cv2
-import time
-from tkinter import *
-import tkinter as tk
-from PIL import ImageTk, Image
 
 # format: [circle color, start eye angle, end eye angle, eye thickness]
 # TODO: change attributes for somewhat negative and somewhat positive
@@ -40,6 +36,7 @@ class KuriBot:
 
     def setSentiment(self, sentiment):
         self.sentiment = sentiment
+        self.color = SENTIMENT[self.sentiment][0]
 
     def drawEyes(self):
         # Clears previous eyes
@@ -57,17 +54,8 @@ class KuriBot:
     def drawCircle(self):
         cv2.circle(self.img, (self.width // 2, self.height - 100), self.size, self.color, -1)
         cv2.imshow('kuri', self.img)
-
-        # Anh's experiments with using Tkinter to display OpenCV images - unsuccessful so far
-        # self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2RGB)
-        # image = ImageTk.PhotoImage(image=Image.fromarray(self.img))
-        # label_image = Label(self.window, image=image)
-        # label_image.image = image
-        # label_image.pack(side="bottom", fill="both", expand="yes")
-        # label_image.place(x=0, y=0, anchor="w")
-        # mainloop()  # Start the GUI
-
         cv2.circle(self.img, (self.width // 2, self.height - 100), self.size, (248, 248, 248), -1)
+
         if self.grow:
             self.size += 1
         else:
@@ -76,20 +64,15 @@ class KuriBot:
             self.grow = False
         if self.size <= 50:
             self.grow = True
-        # mainloop()
 
     def runKuri(self):
-        # self.window = Tk()
-        # self.window.title("Kuri Program")
         while True:
             self.drawEyes()
             self.drawCircle()
-            # mainloop()
-
             k = cv2.waitKey(100)
+
             if k == 27:
                 break
 
-        # mainloop()
         cv2.destroyAllWindows()
 
