@@ -6,9 +6,9 @@ from PIL import ImageTk, Image
 
 # format: [circle color, start eye angle, end eye angle, eye thickness]
 # TODO: change attributes for somewhat negative and somewhat positive
-SENTIMENT = {'very negative': [(159, 159, 255), 0, 360, -1], 'very positive': [(137, 240, 255), 0, 180, 20],
-             'neutral': [(200, 200, 200), 0, 360, -1], 'somewhat negative': [(159, 159, 255), 0, 360, -1],
-             'somewhat positive': [(137, 240, 255), 0, 180, 20]}
+SENTIMENT = {'very negative': [(112, 122, 255), 0, 360, -1], 'very positive': [(130, 209, 126), 0, 180, 20],
+             'neutral': [(200, 200, 200), 0, 360, -1], 'somewhat negative': [(184, 188, 255), 0, 360, -1],
+             'somewhat positive': [(167, 209, 165), 0, 180, 20]}
 
 class KuriBot:
 
@@ -93,11 +93,3 @@ class KuriBot:
         # mainloop()
         cv2.destroyAllWindows()
 
-
-# # Example of how to instantiate
-# if __name__ == '__main__':
-#     sentiment = 'positive'
-#     kuri = KuriBot(sentiment)
-#     kuri.runKuri()
-#
-#     cv2.destroyAllWindows()
