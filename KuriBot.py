@@ -1,10 +1,14 @@
 import cv2
+import os
+import sys
+import fcntl
 
 # format: [circle color, start eye angle, end eye angle, eye thickness]
 # TODO: change attributes for somewhat negative and somewhat positive
 SENTIMENT = {'very negative': [(112, 122, 255), 0, 360, -1], 'very positive': [(130, 209, 126), 0, 180, 20],
              'neutral': [(200, 200, 200), 0, 360, -1], 'somewhat negative': [(184, 188, 255), 0, 360, -1],
              'somewhat positive': [(167, 209, 165), 0, 180, 20]}
+
 
 class KuriBot:
 
@@ -66,13 +70,27 @@ class KuriBot:
             self.grow = True
 
     def runKuri(self):
-        while True:
-            self.drawEyes()
-            self.drawCircle()
-            k = cv2.waitKey(100)
+        self.drawEyes()
+        self.drawCircle()
+        cv2.waitKey(100)
 
-            if k == 27:
+
+if __name__ == "__main__":
+    kuri = KuriBot("neutral")
+
+    fd = sys.stdin.fileno()
+    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
+    while True:
+        kuri.runKuri()
+        try:
+            sentiment = sys.stdin.readline()
+            sentiment = sentiment.strip()
+            if sentiment == 'q':
+                cv2.destroyAllWindows()
                 break
-
-        cv2.destroyAllWindows()
-
+            if sentiment in SENTIMENT:
+                kuri.setSentiment(sentiment)
+        except:
+            pass
