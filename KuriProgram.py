@@ -33,8 +33,8 @@ class KuriGUI:
 
     def welcomeScreen(self):
         self.welcome = Canvas(self.root,
-                             width=self.canvasSize + self.canvasPadding,
-                             height=self.canvasSize + self.canvasPadding)
+                              width=self.canvasSize + self.canvasPadding,
+                              height=self.canvasSize + self.canvasPadding)
         self.welcome.grid(row=1, column=1)
         buttonFrame = Frame(self.root, bd=5, padx=5, pady=5)
         self.speechButton = Button(buttonFrame, text="Speak", command=self.useSpeech)
@@ -51,15 +51,14 @@ class KuriGUI:
         txt = self.sr.getSpeech("Talk to me! (Press 'q' to quit) ")
         while True:
             # TODO: fix key press
-            # self.root.bind("<KeyPress>", self.quitKey)
+            self.root.bind("<KeyPress>", self.quitKey)
             if txt:
                 sentiment = self.sd.getSentiment(txt)
-                self.kuri.setSentiment(sentiment.lower())
+                self.kuri = KuriBot(sentiment.lower())
                 self.kuri.runKuri()
                 txt = self.sr.getSpeech("Talk to me! (Press 'q' to quit) ")
             else:
                 txt = self.sr.getSpeech("Could you say that again? (Press 'q' to quit) ")
-
 
     def useChat(self):
         self.root.destroy()
@@ -70,7 +69,7 @@ class KuriGUI:
                 quit()
             else:
                 sentiment = self.sd.getSentiment(txt)
-                self.kuri.setSentiment(sentiment.lower())
+                self.kuri = KuriBot(sentiment.lower())
                 self.kuri.runKuri()
                 txt = input("Talk to me! (Press 'q' to quit) ")
 
@@ -88,12 +87,14 @@ class KuriGUI:
     #     message = Label(messageFrame, textvariable=self.messageVar, width=60, height=3, wraplength=300)
     #     message.grid(row=1, column=1)
 
+
 def RunKuriProgram():
     """This starts it all up.  Sets up the KuriGUI, and its widgets, and makes it go"""
     k = KuriGUI()
     k.welcomeScreen()
     # s.setupWidgets()
     # s.goProgram()
+
 
 # The lines below cause the maze to run when this file is double-clicked or sent to a launcher, or loaded
 # into the interactive shell.
