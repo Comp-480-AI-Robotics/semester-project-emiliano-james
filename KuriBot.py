@@ -87,7 +87,7 @@ class KuriBot:
         cv2.waitKey(100)
 
 
-# Implements threading to run the Kuri robot simultaneously with the user input loop
+# Implements a subprocess to run the Kuri robot simultaneously with the user input loop
 if __name__ == "__main__":
     kuri = KuriBot("neutral")
 

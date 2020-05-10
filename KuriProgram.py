@@ -14,12 +14,13 @@ from SpeechRecognizer import SpeechRecognizer
 class KuriProgram:
     """Sets up and manages all the variables for the program"""
 
-    def __init__(self):
+    def __init__(self, proc):
         """Sets up a new sentiment detector and a new speech recognizer and
         asks for communication method"""
         self.sd = SentimentDetector()
         self.sr = SpeechRecognizer()
         self.option = input("Welcome to Kuri! Type 'c' to chat or 's' to speak! ")
+        self.proc = proc
 
     def startKuri(self):
         """Starts the program using chat or speech"""
@@ -32,8 +33,7 @@ class KuriProgram:
         """Displays the Kuri robot and repeatedly takes in user input in text form,
         while continuously updating the robot's face and heart light"""
         # Implements threading to run the Kuri robot simultaneously with the user input loop
-        proc = Popen(["python KuriBot.py"], shell=True, stdin=PIPE, close_fds=True)
-        proc_stdin = io.TextIOWrapper(proc.stdin, encoding='utf-8', line_buffering=True)
+        proc_stdin = io.TextIOWrapper(self.proc.stdin, encoding='utf-8', line_buffering=True)
 
         while True:
             txt = input("Talk to me! (Type 'q' to quit) ")
@@ -48,9 +48,8 @@ class KuriProgram:
     def useSpeech(self):
         """Displays the Kuri robot and repeatedly takes in user input in speech form,
         while continuously updating the robot's face and heart light"""
-        # Implements threading to run the Kuri robot simultaneously with the user input loop
-        proc = Popen(["python3 KuriBot.py"], shell=True, stdin=PIPE, close_fds=True)
-        proc_stdin = io.TextIOWrapper(proc.stdin, encoding='utf-8', line_buffering=True)
+        # Implements a subprocess to run the Kuri robot simultaneously with the user input loop
+        proc_stdin = io.TextIOWrapper(self.proc.stdin, encoding='utf-8', line_buffering=True)
 
         while True:
             prompt = input("Type 's' to begin recording! (Type 'q' to quit) ")
@@ -70,9 +69,9 @@ class KuriProgram:
 
 def RunKuriProgram():
     """Sets up the KuriProgram and its widgets and makes it go"""
-    k = KuriProgram()
+    proc = Popen(["python KuriBot.py"], shell=True, stdin=PIPE, close_fds=True)
+    k = KuriProgram(proc)
     k.startKuri()
-
 
 if __name__ == "__main__":
     RunKuriProgram()
