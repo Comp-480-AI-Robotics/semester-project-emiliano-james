@@ -3,11 +3,11 @@ import os
 import sys
 import fcntl
 
-# format: [circle color, start eye angle, end eye angle, eye thickness]
-# TODO: change attributes for somewhat negative and somewhat positive
-SENTIMENT = {'very negative': [(112, 122, 255), 0, 360, -1], 'very positive': [(130, 209, 126), 0, 180, 20],
-             'neutral': [(200, 200, 200), 0, 360, -1], 'somewhat negative': [(184, 188, 255), 0, 360, -1],
-             'somewhat positive': [(167, 209, 165), 0, 180, 20]}
+# format: [circle color, start left eye angle, end left eye angle, start right eye angle, end right eye angle,
+#          eye thickness]
+SENTIMENT = {'very negative': [(112, 122, 255), 210, 390, 150, 330, -1], 'very positive': [(130, 214, 126), 0, 180, 0,
+             180, 25], 'neutral': [(200, 200, 200), 0, 360, 0, 360, -1], 'somewhat negative': [(205, 208, 255), 210,
+             390, 150, 330, -1], 'somewhat positive': [(194, 214, 193), 0, 180, 0, 180, 25]}
 
 
 class KuriBot:
@@ -44,16 +44,16 @@ class KuriBot:
 
     def drawEyes(self):
         # Clears previous eyes
-        self.img = cv2.ellipse(self.img, self.left_center, (self.left_axes[0] + 12, self.left_axes[1] + 12),
+        self.img = cv2.ellipse(self.img, self.left_center, (self.left_axes[0] + 15, self.left_axes[1] + 15),
                                self.theta, 0, 360, (245, 245, 245), thickness=-1)
-        self.img = cv2.ellipse(self.img, self.right_center, (self.right_axes[0] + 12, self.right_axes[1] + 12),
+        self.img = cv2.ellipse(self.img, self.right_center, (self.right_axes[0] + 15, self.right_axes[1] + 15),
                                self.theta, 0, 360, (245, 245, 245), thickness=-1)
 
         # Draws new eyes
         self.img = cv2.ellipse(self.img, self.left_center, self.left_axes, self.theta, SENTIMENT[self.sentiment][1],
-                               SENTIMENT[self.sentiment][2], (0, 0, 0), thickness=SENTIMENT[self.sentiment][3])
-        self.img = cv2.ellipse(self.img, self.right_center, self.right_axes, self.theta, SENTIMENT[self.sentiment][1],
-                               SENTIMENT[self.sentiment][2], (0, 0, 0), thickness=SENTIMENT[self.sentiment][3])
+                               SENTIMENT[self.sentiment][2], (0, 0, 0), thickness=SENTIMENT[self.sentiment][5])
+        self.img = cv2.ellipse(self.img, self.right_center, self.right_axes, self.theta, SENTIMENT[self.sentiment][3],
+                               SENTIMENT[self.sentiment][4], (0, 0, 0), thickness=SENTIMENT[self.sentiment][5])
 
     def drawCircle(self):
         cv2.circle(self.img, (self.width // 2, self.height - 100), self.size, self.color, -1)
@@ -76,7 +76,7 @@ class KuriBot:
 
 
 if __name__ == "__main__":
-    kuri = KuriBot("neutral")
+    kuri = KuriBot("very positive")
 
     fd = sys.stdin.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
