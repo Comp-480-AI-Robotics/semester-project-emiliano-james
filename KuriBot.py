@@ -76,7 +76,7 @@ class KuriBot:
 
 
 if __name__ == "__main__":
-    kuri = KuriBot("very positive")
+    kuri = KuriBot("neutral")
 
     fd = sys.stdin.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
