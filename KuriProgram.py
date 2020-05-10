@@ -19,25 +19,25 @@ class KuriProgram:
         asks for communication method"""
         self.sd = SentimentDetector()
         self.sr = SpeechRecognizer()
-        self.option = input("Welcome to Kuri! Type 'c' to chat or 's' to speak! ")
+        self.option = input("Welcome to Kuri! Type 'c' to chat or 's' to speak! ").lower()
         self.proc = proc
 
     def startKuri(self):
         """Starts the program using chat or speech"""
-        if self.option.lower() == 'c':
+        if self.option == 'c':
             self.useChat()
-        elif self.option.lower() == 's':
+        elif self.option == 's':
             self.useSpeech()
 
     def useChat(self):
         """Displays the Kuri robot and repeatedly takes in user input in text form,
         while continuously updating the robot's face and heart light"""
-        # Implements threading to run the Kuri robot simultaneously with the user input loop
+        # Implements a subprocess to run the Kuri robot simultaneously with the user input loop
         proc_stdin = io.TextIOWrapper(self.proc.stdin, encoding='utf-8', line_buffering=True)
 
         while True:
-            txt = input("Talk to me! (Type 'q' to quit) ")
-            if txt.lower() == 'q':
+            txt = input("Talk to me! (Type 'q' to quit) ").lower()
+            if txt == 'q':
                 proc_stdin.write('q\n')
                 quit()
             else:
@@ -52,11 +52,11 @@ class KuriProgram:
         proc_stdin = io.TextIOWrapper(self.proc.stdin, encoding='utf-8', line_buffering=True)
 
         while True:
-            prompt = input("Type 's' to begin recording! (Type 'q' to quit) ")
-            if prompt.lower() == 'q':
+            prompt = input("Type 's' to begin recording! (Type 'q' to quit) ").lower()
+            if prompt == 'q':
                 proc_stdin.write('q\n')
                 quit()
-            if prompt.lower() == 's':
+            if prompt == 's':
                 txt = self.sr.getSpeech("Recording...")
                 print("Finished recording!")
                 if not txt:
@@ -68,7 +68,7 @@ class KuriProgram:
 
 
 def RunKuriProgram():
-    """Sets up the KuriProgram and its widgets and makes it go"""
+    """Sets up the KuriProgram and its widgets and makes it go simultaneously with the KuriBot"""
     proc = Popen(["python KuriBot.py"], shell=True, stdin=PIPE, close_fds=True)
     k = KuriProgram(proc)
     k.startKuri()

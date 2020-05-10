@@ -4,6 +4,10 @@ The Kuri robot will change its facial expression and heart light color depending
 user through chat or speech. We used [OpenCV](https://opencv.org/) to create the robot 
 simulation, [SpeechRecognition](https://pypi.org/project/SpeechRecognition/) to gather speech input, and 
 [TextBlob](https://textblob.readthedocs.io/en/dev/) for sentiment analysis.
+## Chat Demo
+[![Chat Demo](https://img.youtube.com/vi/5qmQ5Wap8Ts/0.jpg)](https://youtu.be/5qmQ5Wap8Ts)
+## Speech Demo
+[![Speech Demo](https://img.youtube.com/vi/frt1N9reglE/0.jpg)](https://youtu.be/frt1N9reglE)
 ## Getting started
 This program requires Python 3. Below are step-by-step instructions for MacOS:
 ### Create a virtual environment
