@@ -26,8 +26,8 @@ class KuriGUI:
 
     def welcomeScreen(self):
         self.welcome = Canvas(self.root,
-                             width=self.canvasSize + self.canvasPadding,
-                             height=self.canvasSize + self.canvasPadding)
+                              width=self.canvasSize + self.canvasPadding,
+                              height=self.canvasSize + self.canvasPadding)
         self.welcome.grid(row=1, column=1)
         buttonFrame = Frame(self.root, bd=5, padx=5, pady=5)
         self.speechButton = Button(buttonFrame, text="Speak", command=self.useSpeech)
@@ -66,6 +66,7 @@ class KuriGUI:
                 txt = input("Talk to me! (Press 'q' to quit) ")
 
 
+
 def RunKuriProgram():
     """This starts it all up.  Sets up the KuriGUI, and its widgets, and makes it go"""
     k = KuriGUI()
@@ -75,4 +76,3 @@ def RunKuriProgram():
 if __name__ == "__main__":
     RunKuriProgram()
     mainloop()
-
