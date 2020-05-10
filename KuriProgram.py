@@ -73,5 +73,6 @@ def RunKuriProgram():
     k = KuriProgram(proc)
     k.startKuri()
 
+
 if __name__ == "__main__":
     RunKuriProgram()
