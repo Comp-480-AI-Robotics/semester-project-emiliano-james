@@ -3,4 +3,3 @@ numpy
 SpeechRecognition
 PyAudio
 TextBlob
-Pillow

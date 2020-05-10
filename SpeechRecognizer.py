@@ -1,20 +1,29 @@
+"""  =================================================================
+File: SpeechRecognizer.py
+This file contains code for the SpeechRecognizer class that can convert
+the user's speech into text.
+Authors: Anh Nguyen, Lily Irvin, Ryan Specht
+ ==================================================================="""
+
 import speech_recognition as sr
 
+
 class SpeechRecognizer:
+    """Represents a speech recognizer object"""
+
     def __init__(self):
+        """Sets up a speech recognizer object"""
         self.recognizer = sr.Recognizer()
 
     def getSpeech(self, prompt):
-        # obtain audio from the microphone
+        """Records the user's speech and turn it into text form"""
+        # Obtains audio from the microphone
         with sr.Microphone() as source:
             print(prompt)
             audio = self.recognizer.listen(source)
 
-        # recognize speech using Google Speech Recognition
+        # Recognizes speech using Google Speech Recognition
         try:
-            # for testing purposes, we're just using the default API key
-            # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-            # instead of `r.recognize_google(audio)`
             return self.recognizer.recognize_google(audio)
         except sr.UnknownValueError:
             return None
