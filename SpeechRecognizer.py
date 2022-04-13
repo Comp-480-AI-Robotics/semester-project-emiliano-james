@@ -5,7 +5,7 @@ the user's speech into text.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
 Contributors: Emiliano Huerta, James Yang
  ==================================================================="""
-from time import ctime
+from datetime import datetime
 import time
 import speech_recognition as sr
 import gtts as gTTS 
@@ -24,6 +24,7 @@ class SpeechRecognizer:
     def __init__(self):
         """Sets up a speech recognizer object"""
         self.recognizer = sr.Recognizer()
+        self.searchBank =  {"who": "who", "what": "what", "when": "when", "where": "where", "why": "why", "how": "how"}
 
     def getSpeech(self):
         """
@@ -35,6 +36,7 @@ class SpeechRecognizer:
         # Obtains audio from the microphone
         with sr.Microphone() as source:
             # we are defining our orignal voice data to nothing 
+            self.recognizer.adjust_for_ambient_noise(source, duration=0.2)
             audio = self.recognizer.listen(source)
         # Recognizes speech using Google Speech Recognition
         try:
@@ -61,21 +63,23 @@ class SpeechRecognizer:
         if voice_data is not None: 
             if 'what is your name' in voice_data:
                 self.kuri_speak("My name is Kuri")
-            if 'time is it' in voice_data:
-                self.kuri_speak(ctime())
-            if 'goodbye' in voice_data: 
+            elif 'what time is it' in voice_data:
+                now = datetime.now()
+                current_time = now.strftime("%I:%M:%S")
+                self.kuri_speak(current_time)
+            elif 'goodbye' in voice_data: 
                 self.kuri_speak("Ok, Goodbye")
                 quit() 
-            if "what is the weather like" in voice_data:
-                self.grabWeather()
-                # pass ##must implement city location in order to have more accurate results
-
+            elif "what is the weather like" in voice_data:
+                # self.grabWeather()
+                pass ##must implement city location in order to have more accurate results
+            elif self.searchBank.values() in voice_data: 
+                pass
 
             time.sleep(1)
             while 1:
                 voice_data = self.getSpeech() 
                 self.response(voice_data)
-
 
     def kuri_speak(self, audio_string): 
         """
@@ -108,6 +112,13 @@ class SpeechRecognizer:
         # print(page['Text'])
 
         # self.kuri_speak("The forcast today is " + page['Text'])
+
+    # def search(self, dict, voice_data):
+    #     if dict.values() in voice_data:
+    #         print(dict.values() )
+
+        # url = "https://www.google.com/search?q="
+
 
 
 
