@@ -32,9 +32,9 @@ conda install pyaudio
 ```
 ### Run the program
 ```
+```
 python3 KuriProgram.py
 ```
-
 
 ## Contributors 
 [Emiliano Huerta](https://github.com/EmilianoHuerta) <br>
