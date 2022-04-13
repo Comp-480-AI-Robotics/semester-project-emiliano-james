@@ -4,7 +4,6 @@ This file contains code for the SpeechRecognizer class that can convert
 the user's speech into text.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
  ==================================================================="""
-
 import speech_recognition as sr
 
 

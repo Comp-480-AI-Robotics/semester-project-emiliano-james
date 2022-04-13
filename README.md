@@ -2,6 +2,7 @@
 This project presents a simulation of the [Kuri robot](https://www.heykuri.com/explore-kuri/).
 The Kuri robot will change its facial expression and heart light color depending on the sentiment of the text given by the 
 user through chat or speech. We used [OpenCV](https://opencv.org/) to create the robot 
+
 simulation, [SpeechRecognition](https://pypi.org/project/SpeechRecognition/) to gather speech input, and 
 [TextBlob](https://textblob.readthedocs.io/en/dev/) for sentiment analysis.
 ## Chat Demo

@@ -4,7 +4,6 @@ This file contains code for the KuriBot class that simulates a Kuri
 robot by changing its facial expressions and heart light.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
  ==================================================================="""
-
 import cv2
 import os
 import sys

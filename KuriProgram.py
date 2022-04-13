@@ -3,7 +3,6 @@ File: KuriProgram.py
 This file contains code that runs the command-line interface for the Kuri robot.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
  ==================================================================="""
-
 from subprocess import Popen, PIPE
 import io
 

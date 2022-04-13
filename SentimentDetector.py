@@ -4,7 +4,6 @@ This file contains code for the SentimentDetector class that can detect
 sentiment from text input using TextBlob.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
  ==================================================================="""
-
 from textblob import TextBlob
 
 
