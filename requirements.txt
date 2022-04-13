@@ -2,3 +2,6 @@ opencv-python
 SpeechRecognition
 PyAudio
 TextBlob
+gTTS
+playsound
+pyobjc
