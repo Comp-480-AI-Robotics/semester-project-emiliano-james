@@ -57,12 +57,13 @@ class KuriProgram:
                 proc_stdin.write('q\n')
                 quit()
             if prompt == 's':
-                txt = self.sr.getSpeech("Recording...")
-                print("Finished recording!")
-                if not txt:
+                print("How may I help you?")
+                self.sr.response(self.sr.getSpeech()) 
+                print("Finished processing!")
+                if not self.sr.getSpeech():
                     print("\nCould you say that again?")
                 else:
-                    sentiment = self.sd.getSentiment(txt)
+                    sentiment = self.sd.getSentiment(self.sr.getSpeech())
                     proc_stdin.write(sentiment + '\n')
                     print("Sentiment: " + sentiment + '\n')
 
