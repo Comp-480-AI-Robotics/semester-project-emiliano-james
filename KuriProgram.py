@@ -57,7 +57,7 @@ class KuriProgram:
                 proc_stdin.write('q\n')
                 quit()
             if prompt == 's':
-                print("How may I help you?")
+                self.sr.kuri_speak("How may I help you?")
                 self.sr.response(self.sr.getSpeech()) 
                 print("Finished processing!")
                 if not self.sr.getSpeech():
