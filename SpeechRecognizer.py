@@ -12,6 +12,9 @@ import gtts as gTTS
 import playsound
 import os
 import random
+import requests 
+from geopy.geocoders import Nominatim
+
 
 
 
@@ -60,9 +63,14 @@ class SpeechRecognizer:
                 self.kuri_speak("My name is Kuri")
             if 'time is it' in voice_data:
                 self.kuri_speak(ctime())
-            if "exit" in voice_data | 'goodbye kuri' in voice_data | 'leave kuri' in voice_data: 
+            if 'goodbye' in voice_data: 
                 self.kuri_speak("Ok, Goodbye")
                 quit() 
+            if "what is the weather like" in voice_data:
+                self.grabWeather()
+                # pass ##must implement city location in order to have more accurate results
+
+
             time.sleep(1)
             while 1:
                 voice_data = self.getSpeech() 
@@ -83,3 +91,25 @@ class SpeechRecognizer:
         playsound.playsound(audio_file)
         print(audio_string)
         os.remove(audio_file)
+
+    def grabWeather(self):
+        pass #need to figure out a better way to grab weather 
+        # geolocator = Nominatim(user_agent="geoapiExercises")
+        # self.kuri_speak("What city would you like the weather for?")
+        # cityName = self.getSpeech() 
+        # res = "http://dataservice.accuweather.com/locations/v1/cities/"+ str(cityName) 
+        # postalcode = res['PrimaryPostalCode']
+        # print(postalcode)
+
+        
+        # page = requests.get("http://dataservice.accuweather.com/forecasts/v1/daily/1day/+"+ zip_code +"?apikey=0yiQHtAJwNcrL8kocvXaXyfVXH6guN87&language=en-us&details=false&metric=false")
+        
+        # print(page)
+        # print(page['Text'])
+
+        # self.kuri_speak("The forcast today is " + page['Text'])
+
+
+
+
+
