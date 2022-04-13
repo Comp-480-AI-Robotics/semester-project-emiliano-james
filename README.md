@@ -1,5 +1,6 @@
 # Kuri Robot Simulation
-https://progress-bar.dev/<thepercentage>?title=<Kuri_Functionality>
+![](https://us-central1-progress-markdown.cloudfunctions.net/progress/10)
+
 This project presents a simulation of the [Kuri robot](https://www.heykuri.com/explore-kuri/).
 The Kuri robot will change its facial expression and heart light color depending on the sentiment of the text given by the 
 user through chat or speech. We used [OpenCV](https://opencv.org/) to create the robot 
