@@ -28,10 +28,7 @@ If you recieve an error as a result of portaudio, please enter the following com
 ```
 conda install pyaudio
 ```
-
-```
 ### Run the program
-```
 ```
 python3 KuriProgram.py
 ```
