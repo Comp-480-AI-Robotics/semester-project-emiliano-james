@@ -3,6 +3,7 @@ File: SentimentDetector.py
 This file contains code for the SentimentDetector class that can detect
 sentiment from text input using TextBlob.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
+Contributors: Emiliano Huerta, James Yang
  ==================================================================="""
 from textblob import TextBlob
 
@@ -28,5 +29,5 @@ class SentimentDetector:
             sentiment = "somewhat negative"
         elif -1 <= polarity < -0.6:
             sentiment = "very negative"
-
+        print("this is the polarity of responses", polarity)
         return sentiment

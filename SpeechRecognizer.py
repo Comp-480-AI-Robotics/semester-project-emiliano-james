@@ -3,6 +3,7 @@ File: SpeechRecognizer.py
 This file contains code for the SpeechRecognizer class that can convert
 the user's speech into text.
 Authors: Anh Nguyen, Lily Irvin, Ryan Specht
+Contributors: Emiliano Huerta, James Yang
  ==================================================================="""
 import speech_recognition as sr
 
@@ -23,7 +24,9 @@ class SpeechRecognizer:
 
         # Recognizes speech using Google Speech Recognition
         try:
+            print(self.recognizer.recognize_google(audio))
             return self.recognizer.recognize_google(audio)
+
         except sr.UnknownValueError:
             return None
         except sr.RequestError as e:
