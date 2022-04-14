@@ -31,7 +31,8 @@ class SpeechRecognizer:
         """Sets up a speech recognizer object"""
         self.recognizer = sr.Recognizer()
         self.searchBank =  {"who": "who", "what": "what", "when": "when", "where": "where", "why": "why", "how": "how"}
-
+        self.recognizer.energy_threshold = 300
+    
     def getSpeech(self):
         """
         Records the user's speech and turn it into text form
@@ -42,7 +43,7 @@ class SpeechRecognizer:
         # Obtains audio from the microphone
         with sr.Microphone() as source:
             # we are defining our orignal voice data to nothing 
-            self.recognizer.adjust_for_ambient_noise(source, duration=0.2)
+            self.recognizer.adjust_for_ambient_noise(source, duration=5.0)
             audio = self.recognizer.listen(source)
         # Recognizes speech using Google Speech Recognition
         try:
