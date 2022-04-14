@@ -15,6 +15,12 @@ import random
 import requests 
 from geopy.geocoders import Nominatim
 
+# imports for grabWeather() method
+import requests
+import json
+# import pandas as pd
+# import numpy as np
+
 
 
 
@@ -70,9 +76,9 @@ class SpeechRecognizer:
             elif 'goodbye' in voice_data: 
                 self.kuri_speak("Ok, Goodbye")
                 quit() 
-            elif "what is the weather like" in voice_data:
-                # self.grabWeather()
-                pass ##must implement city location in order to have more accurate results
+            elif "weather" in voice_data:
+                self.grabWeather()
+                # pass ##must implement city location in order to have more accurate results
             elif self.searchBank.values() in voice_data: 
                 pass
 
@@ -97,10 +103,40 @@ class SpeechRecognizer:
         os.remove(audio_file)
 
     def grabWeather(self):
-        pass #need to figure out a better way to grab weather 
-        # geolocator = Nominatim(user_agent="geoapiExercises")
-        # self.kuri_speak("What city would you like the weather for?")
-        # cityName = self.getSpeech() 
+        # need to figure out a better way to grab weather 
+        geolocator = Nominatim(user_agent="geoapiExercises")
+        self.kuri_speak("What city would you like the weather for?")
+        cityName = self.getSpeech() 
+
+        location = geolocator.geocode(cityName)
+        if location is None:
+            self.kuri_speak("I did not get where you are")
+        latitude = location.latitude
+        longitude = location.longitude
+
+        weather_url = "https://api.weather.gov/points/{0:.4f},{1:.4f}".format(latitude,longitude)
+        response = requests.get(weather_url)
+        response.raise_for_status()
+
+        info = json.loads(response.text)
+        # forecastHourly_url = info["properties"]["forecastHourly"]
+        forecast_url = info["properties"]["forecast"]
+        print(forecast_url)
+
+        response_2 = requests.get(forecast_url)
+        response_2.raise_for_status()
+
+        forecast_data = json.loads(response_2.text)
+        # now = datetime.now()
+        # current_time = int(now.strftime("%I"))
+
+        temperature = forecast_data['properties']['periods'][0]['temperature']
+        shortForecast = forecast_data['properties']['periods'][0]['shortForecast']
+
+        print(str(temperature) + shortForecast)
+
+        self.kuri_speak("The forcast today is " + str(temperature)+ 'Fahrenheit' + "and weather is" + shortForecast)
+
         # res = "http://dataservice.accuweather.com/locations/v1/cities/"+ str(cityName) 
         # postalcode = res['PrimaryPostalCode']
         # print(postalcode)
