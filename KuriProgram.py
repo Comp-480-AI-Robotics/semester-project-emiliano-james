@@ -10,6 +10,7 @@ import time
 
 from SentimentDetector import SentimentDetector
 from SpeechRecognizer import SpeechRecognizer
+from FacialRecognition import FacialRecognizer
 
 
 class KuriProgram:
@@ -20,7 +21,7 @@ class KuriProgram:
         asks for communication method"""
         self.sd = SentimentDetector()
         self.sr = SpeechRecognizer()
-        # self.option = input("Welcome to Kuri! Type 'c' to chat or 's' to speak! ").lower()
+        self.cap = FacialRecognizer() 
         self.proc = proc
 
     def startKuri(self):
@@ -48,7 +49,7 @@ class KuriProgram:
         while continuously updating the robot's face and heart light"""
         # Implements a subprocess to run the Kuri robot simultaneously with the user input loop
         proc_stdin = io.TextIOWrapper(self.proc.stdin, encoding='utf-8', line_buffering=True)
-
+        # self.cap.captureImage() this is for image processing 
         while True:
             time.sleep(1.5)
             self.sr.kuri_speak("How may I help you?")
