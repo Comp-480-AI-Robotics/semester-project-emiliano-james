@@ -71,15 +71,13 @@ class SpeechRecognizer:
             if 'what is your name' in voice_data:
                 self.kuri_speak("My name is Kuri")
             elif 'what time is it' in voice_data:
-                now = datetime.now()
-                current_time = now.strftime("%I:%M:%S")
-                self.kuri_speak(current_time)
+                self.kuri_speak(datetime.now().strftime("%I:%M:%S"))
+                # self.kuri_speak(current_time)
             elif 'goodbye' in voice_data: 
                 self.kuri_speak("Ok, Goodbye")
                 quit() 
             elif "weather" in voice_data:
-                reportedWeather = self.grabWeather()
-                self.kuri_speak(reportedWeather)
+                self.grabWeather() 
                 
                 # pass ##must implement city location in order to have more accurate results
             elif self.searchBank.values() in voice_data: 
@@ -138,8 +136,8 @@ class SpeechRecognizer:
 
         print(str(temperature) + shortForecast)
 
-        weather = "The forcast today is " + str(temperature)+ 'Fahrenheit' + "and weather is" + shortForecast
-        return weather
+        return ("The forcast today is " + str(temperature)+ 'Fahrenheit' + "and weather is" + shortForecast)
+
         # res = "http://dataservice.accuweather.com/locations/v1/cities/"+ str(cityName) 
         # postalcode = res['PrimaryPostalCode']
         # print(postalcode)
