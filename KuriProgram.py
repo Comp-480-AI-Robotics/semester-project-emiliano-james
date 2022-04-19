@@ -28,22 +28,6 @@ class KuriProgram:
         """Starts the program using chat or speech"""
         self.useSpeech()
 
-    # def useChat(self):
-    #     """Displays the Kuri robot and repeatedly takes in user input in text form,
-    #     while continuously updating the robot's face and heart light"""
-    #     # Implements a subprocess to run the Kuri robot simultaneously with the user input loop
-    #     proc_stdin = io.TextIOWrapper(self.proc.stdin, encoding='utf-8', line_buffering=True)
-
-    #     while True:
-    #         txt = input("Talk to me! (Type 'q' to quit) ").lower()
-    #         if txt == 'q':
-    #             proc_stdin.write('q\n')
-    #             quit()
-    #         else:
-    #             sentiment = self.sd.getSentiment(txt)
-    #             proc_stdin.write(sentiment + '\n')
-    #             print("Sentiment: " + sentiment + '\n')
-
     def useSpeech(self):
         """Displays the Kuri robot and repeatedly takes in user input in speech form,
         while continuously updating the robot's face and heart light"""
@@ -52,15 +36,16 @@ class KuriProgram:
         # self.cap.captureImage() this is for image processing 
         while True:
             time.sleep(1.5)
+            self.cap.cameraCapture() 
             self.sr.kuri_speak("How may I help you?")
             self.sr.response(self.sr.getSpeech()) 
-            print("Finished processing!")
+            self.sr.kuri_speak("This is what I found!")
             if not self.sr.getSpeech():
-                print("\nCould you say that again?")
-            else:
-                sentiment = self.sd.getSentiment(self.sr.getSpeech())
-                proc_stdin.write(sentiment + '\n')
-                print("Sentiment: " + sentiment + '\n')
+                self.sr.kuri_speak("\nCould you say that again?")
+            # else:
+            #     sentiment = self.sd.getSentiment(self.sr.getSpeech())
+            #     proc_stdin.write(sentiment + '\n')
+            #     print("Sentiment: " + sentiment + '\n')
 
 
 def RunKuriProgram():
