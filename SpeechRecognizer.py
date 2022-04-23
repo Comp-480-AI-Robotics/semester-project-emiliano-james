@@ -97,7 +97,8 @@ class SpeechRecognizer:
                 self.grab_joke()
             elif "news" in voice_data:
                 self.grabNews() 
-                pass 
+            elif "sports" in voice_data:
+                self.grabSport() 
 
             while 1:
                 voice_data = self.getSpeech() 
@@ -177,7 +178,40 @@ class SpeechRecognizer:
         results = []
         for ar in article:
             results.append(ar["title"])
-        for i in range(len(results)):
+        for i in range(5):
+            # speak all trending news top 10 results 
+            self.kuri_speak(str(results[i]))
+        self.kuri_speak("is there anything else I can help you with?")
+
+    def grabSport(self):
+        """
+        Summary: This functions make a query search to bbc-news gathering the top stories which will be returned and read to the user by Kuri
+        """
+        # BBC news api
+        # following query parameters are used
+        # source, sortBy and apiKey
+        # we should source this api key to somewhere else so it isnt seen in the file -- fine for now 
+        query_params = {
+        "source": "ESPN",
+        "country": "us",
+        "category": "sports",
+        "apiKey": "f2977f6aa47c40f2bba4dd1051c5d3f8" 
+        }
+
+        main_url = " https://newsapi.org/v2/top-headlines"
+        # fetching data in json format
+        res = requests.get(main_url, params=query_params)
+        print(res)
+
+        open_bbc_page = res.json()
+        # getting all articles in a string article
+        article = open_bbc_page["articles"]
+        # empty list which will
+        # contain all trending news
+        results = []
+        for ar in article:
+            results.append(ar["title"])
+        for i in range(5):
             # speak all trending news top 10 results 
             self.kuri_speak(str(results[i]))
         self.kuri_speak("is there anything else I can help you with?")
