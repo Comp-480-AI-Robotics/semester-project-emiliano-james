@@ -143,8 +143,6 @@ class SpeechRecognizer:
         """
         Summary: This functions returns a joke that is withing the 3 following categories: neutral, twister, or all 
 
-        
-
         Args:
             language (str, default): This string defaults the language to english. can be changed to a different lagnauge. Defaults to "en".
         """
