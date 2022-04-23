@@ -67,22 +67,22 @@ class SpeechRecognizer:
             voice_data (string): this argument is a voice input that is converted to string to allow kuri to interpret and respond
         """
         if voice_data is not None: 
-            if 'what is your name' in voice_data:
+            if "your name" in voice_data:
                 self.kuri_speak("My name is Kuri")
-            elif 'what time is it' in voice_data:
+            elif "what time is it" in voice_data:
                 self.kuri_speak(datetime.now().strftime("%I:%M:%S"))
                 # self.kuri_speak(current_time)
-            elif 'goodbye' in voice_data: 
+            elif "goodbye" in voice_data: 
                 self.kuri_speak("Ok, Goodbye")
                 quit() 
             elif "weather" in voice_data:
                 self.grabWeather() 
             elif "joke" in voice_data:
                 self.grab_joke()
+            elif "news" in voice_data:
+                self.grabNews() 
+                pass 
 
-                # pass ##must implement city location in order to have more accurate results
-            elif self.searchBank.values() in voice_data: 
-                pass
             while 1:
                 voice_data = self.getSpeech() 
                 self.response(voice_data)
@@ -139,6 +139,33 @@ class SpeechRecognizer:
         jokeType = self.getSpeech() 
         joke = pyjokes.get_joke(language, str(jokeType))
         self.kuri_speak(str(joke))
+        self.kuri_speak("Is there anything else I can help you with?")
+    def grabNews(self):
+        # BBC news api
+        # following query parameters are used
+        # source, sortBy and apiKey
+        # we should source this api key to somewhere else so it isnt seen in the file -- fine for now 
+        query_params = {
+        "source": "bbc-news",
+        "sortBy": "top",
+        "apiKey": "f2977f6aa47c40f2bba4dd1051c5d3f8" 
+        }
+
+        main_url = " https://newsapi.org/v1/articles"
+        # fetching data in json format
+        res = requests.get(main_url, params=query_params)
+        open_bbc_page = res.json()
+        # getting all articles in a string article
+        article = open_bbc_page["articles"]
+        # empty list which will
+        # contain all trending news
+        results = []
+        for ar in article:
+            results.append(ar["title"])
+        for i in range(len(results)):
+            # speak all trending news top 10 results 
+            self.kuri_speak(str(results[i]))
+        self.kuri_speak("is there anything else I can help you with?")
 
 
 
