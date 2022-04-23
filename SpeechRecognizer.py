@@ -58,6 +58,22 @@ class SpeechRecognizer:
             return None
 
 
+    def kuri_speak(self, audio_string): 
+        """
+        This function uses google's text to speech module in order to convert the text message kuri generates to speech
+
+        Args:
+            audio_string (string): audio_string is a string that when passed to google's tts it is spoken 
+        """
+        tts = gTTS.gTTS(text=audio_string, lang='en')
+        randomNum = random.randint(1,100000)
+        audio_file = 'audio-' + str(randomNum) + '.mp3'
+        tts.save(audio_file) 
+        playsound.playsound(audio_file)
+        print(audio_string)
+        os.remove(audio_file)
+
+
     def response(self, voice_data):
         """
         This function serves as the response interpretation from each user voice input which scan the voice data and checks to see if any
@@ -87,22 +103,11 @@ class SpeechRecognizer:
                 voice_data = self.getSpeech() 
                 self.response(voice_data)
 
-    def kuri_speak(self, audio_string): 
-        """
-        This function uses google's text to speech module in order to convert the text message kuri generates to speech
-
-        Args:
-            audio_string (string): audio_string is a string that when passed to google's tts it is spoken 
-        """
-        tts = gTTS.gTTS(text=audio_string, lang='en')
-        randomNum = random.randint(1,100000)
-        audio_file = 'audio-' + str(randomNum) + '.mp3'
-        tts.save(audio_file) 
-        playsound.playsound(audio_file)
-        print(audio_string)
-        os.remove(audio_file)
-
     def grabWeather(self):
+        """
+        Summary: This functions makes and api request call to weather api passing it parameters of the requested city gathering 
+                weather data and returning it as a string for kuri to report back to the user 
+        """
         # need to figure out a better way to grab weather 
         geolocator = Nominatim(user_agent="geoapiExercises")
         self.kuri_speak("What city would you like the weather for?")
@@ -135,12 +140,24 @@ class SpeechRecognizer:
         self.kuri_speak("Is there anything else I can help you with?")
 
     def grab_joke(self, language="en"):
+        """
+        Summary: This functions returns a joke that is withing the 3 following categories: neutral, twister, or all 
+
+        
+
+        Args:
+            language (str, default): This string defaults the language to english. can be changed to a different lagnauge. Defaults to "en".
+        """
         self.kuri_speak("What catergory would you like to hear: neutral, twister, or all")
         jokeType = self.getSpeech() 
         joke = pyjokes.get_joke(language, str(jokeType))
         self.kuri_speak(str(joke))
         self.kuri_speak("Is there anything else I can help you with?")
+
     def grabNews(self):
+        """
+        Summary: This functions make a query search to bbc-news gathering the top stories which will be returned and read to the user by Kuri
+        """
         # BBC news api
         # following query parameters are used
         # source, sortBy and apiKey
