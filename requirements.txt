@@ -5,3 +5,4 @@ TextBlob
 gTTS
 playsound
 pyobjc
+pyjokes

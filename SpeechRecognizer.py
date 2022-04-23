@@ -14,12 +14,11 @@ import os
 import random
 import requests 
 from geopy.geocoders import Nominatim
-
 # imports for grabWeather() method
 import requests
 import json
-# import pandas as pd
-# import numpy as np
+#imports for jokes 
+import pyjokes
 
 
 
@@ -43,7 +42,7 @@ class SpeechRecognizer:
         # Obtains audio from the microphone
         with sr.Microphone() as source:
             # we are defining our orignal voice data to nothing 
-            self.recognizer.adjust_for_ambient_noise(source, duration=5.0)
+            self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
             audio = self.recognizer.listen(source)
         # Recognizes speech using Google Speech Recognition
         try:
@@ -78,12 +77,12 @@ class SpeechRecognizer:
                 quit() 
             elif "weather" in voice_data:
                 self.grabWeather() 
-                
+            elif "joke" in voice_data:
+                self.grab_joke()
+
                 # pass ##must implement city location in order to have more accurate results
             elif self.searchBank.values() in voice_data: 
                 pass
-
-            time.sleep(1)
             while 1:
                 voice_data = self.getSpeech() 
                 self.response(voice_data)
@@ -122,7 +121,6 @@ class SpeechRecognizer:
         info = json.loads(response.text)
         # forecastHourly_url = info["properties"]["forecastHourly"]
         forecast_url = info["properties"]["forecast"]
-        print(forecast_url)
 
         response_2 = requests.get(forecast_url)
         response_2.raise_for_status()
@@ -133,28 +131,14 @@ class SpeechRecognizer:
 
         temperature = forecast_data['properties']['periods'][0]['temperature']
         shortForecast = forecast_data['properties']['periods'][0]['shortForecast']
+        self.kuri_speak("The forcast today is " + str(temperature)+ 'Fahrenheit' + "and weather is" + shortForecast)
+        self.kuri_speak("Is there anything else I can help you with?")
 
-        print(str(temperature) + shortForecast)
-
-        return ("The forcast today is " + str(temperature)+ 'Fahrenheit' + "and weather is" + shortForecast)
-
-        # res = "http://dataservice.accuweather.com/locations/v1/cities/"+ str(cityName) 
-        # postalcode = res['PrimaryPostalCode']
-        # print(postalcode)
-
-        
-        # page = requests.get("http://dataservice.accuweather.com/forecasts/v1/daily/1day/+"+ zip_code +"?apikey=0yiQHtAJwNcrL8kocvXaXyfVXH6guN87&language=en-us&details=false&metric=false")
-        
-        # print(page)
-        # print(page['Text'])
-
-        # self.kuri_speak("The forcast today is " + page['Text'])
-
-    # def search(self, dict, voice_data):
-    #     if dict.values() in voice_data:
-    #         print(dict.values() )
-
-        # url = "https://www.google.com/search?q="
+    def grab_joke(self, language="en"):
+        self.kuri_speak("What catergory would you like to hear: neutral, twister, or all")
+        jokeType = self.getSpeech() 
+        joke = pyjokes.get_joke(language, str(jokeType))
+        self.kuri_speak(str(joke))
 
 
 
