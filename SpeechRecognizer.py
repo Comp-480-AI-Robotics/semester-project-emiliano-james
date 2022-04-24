@@ -19,6 +19,7 @@ import requests
 import json
 #imports for jokes 
 import pyjokes
+import random
 
 
 
@@ -29,7 +30,6 @@ class SpeechRecognizer:
     def __init__(self):
         """Sets up a speech recognizer object"""
         self.recognizer = sr.Recognizer()
-        self.searchBank =  {"who": "who", "what": "what", "when": "when", "where": "where", "why": "why", "how": "how"}
         self.recognizer.energy_threshold = 300
     
     def getSpeech(self):
@@ -85,13 +85,13 @@ class SpeechRecognizer:
         if voice_data is not None: 
             if "your name" in voice_data:
                 self.kuri_speak("My name is Kuri")
+                self.kuri_speak("is there anything else I can help you with?")
             elif "what time is it" in voice_data:
                 self.kuri_speak(datetime.now().strftime("%I:%M:%S"))
-                # self.kuri_speak(current_time)
-            elif "goodbye" in voice_data: 
-                self.kuri_speak("Ok, Goodbye")
-                quit() 
+                self.kuri_speak("is there anything else I can help you with?")
             elif "weather" in voice_data:
+                self.grabWeather() 
+            elif "forecast" in voice_data:
                 self.grabWeather() 
             elif "joke" in voice_data:
                 self.grab_joke()
@@ -99,11 +99,32 @@ class SpeechRecognizer:
                 self.grabNews() 
             elif "sports" in voice_data:
                 self.grabSport() 
-
+            elif "multiply" in voice_data: 
+                self.calculateMult()
+            elif "divide" in voice_data:
+                self.calculateDiv() 
+            elif "add" in voice_data: 
+                self.calculateAdd()
+            elif "subtract" in voice_data:
+                self.calculateSub() 
+            elif "flip a coin" in voice_data: 
+                self.odds() 
+            elif "goodbye" in voice_data: 
+                self.kuri_speak("Ok, Goodbye")
+                quit() 
             while 1:
                 voice_data = self.getSpeech() 
                 self.response(voice_data)
 
+    def odds(self): 
+        randomInt = random.randint(1,2)
+        if randomInt == 1:
+            self.kuri_speak("It was heads")
+        else:
+            self.kuri_speak("It was Tails")
+        self.kuri_speak("Is there anything else I can help you with?")
+        
+        pass 
     def grabWeather(self):
         """
         Summary: This functions makes and api request call to weather api passing it parameters of the requested city gathering 
@@ -139,7 +160,43 @@ class SpeechRecognizer:
         shortForecast = forecast_data['properties']['periods'][0]['shortForecast']
         self.kuri_speak("The forcast today is " + str(temperature)+ 'Fahrenheit' + "and weather is" + shortForecast)
         self.kuri_speak("Is there anything else I can help you with?")
+    
+    def calculateMult(self): 
+            self.kuri_speak("what is your first number?")
+            firstVar = int(self.getSpeech())
+            self.kuri_speak("what is your second number?")
+            secondVar = int(self.getSpeech())
+            finalVal = firstVar*secondVar
+            self.kuri_speak(str(finalVal))
+            self.kuri_speak("Is there anything else I can help you with?")
 
+    def calculateDiv(self): 
+            self.kuri_speak("what is your first number?")
+            firstVar = int(self.getSpeech())
+            self.kuri_speak("what is your second number?")
+            secondVar = int(self.getSpeech())
+            finalVal = firstVar/secondVar
+            self.kuri_speak(str(finalVal))
+            self.kuri_speak("Is there anything else I can help you with?")
+
+    def calculateAdd(self): 
+            self.kuri_speak("what is your first number?")
+            firstVar = int(self.getSpeech())
+            self.kuri_speak("what is your second number?")
+            secondVar = int(self.getSpeech())
+            finalVal = firstVar+secondVar
+            self.kuri_speak(str(finalVal))
+            self.kuri_speak("Is there anything else I can help you with?")
+
+    def calculateSub(self): 
+            self.kuri_speak("what is your first number?")
+            firstVar = int(self.getSpeech())
+            self.kuri_speak("what is your second number?")
+            secondVar = int(self.getSpeech())
+            finalVal = firstVar-secondVar
+            self.kuri_speak(str(finalVal))
+            self.kuri_speak("Is there anything else I can help you with?")
+            
     def grab_joke(self, language="en"):
         """
         Summary: This functions returns a joke that is withing the 3 following categories: neutral, twister, or all 
@@ -147,9 +204,7 @@ class SpeechRecognizer:
         Args:
             language (str, default): This string defaults the language to english. can be changed to a different lagnauge. Defaults to "en".
         """
-        self.kuri_speak("What catergory would you like to hear: neutral, twister, or all")
-        jokeType = self.getSpeech() 
-        joke = pyjokes.get_joke(language, str(jokeType))
+        joke = pyjokes.get_joke(language, "neutral")
         self.kuri_speak(str(joke))
         self.kuri_speak("Is there anything else I can help you with?")
 
