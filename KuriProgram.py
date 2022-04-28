@@ -21,7 +21,7 @@ class KuriProgram:
         asks for communication method"""
         self.sd = SentimentDetector()
         self.sr = SpeechRecognizer()
-        self.cap = FacialRecognizer() 
+        # self.cap = FacialRecognizer() 
         self.proc = proc
 
     def startKuri(self):
@@ -36,16 +36,8 @@ class KuriProgram:
         # self.cap.captureImage() this is for image processing 
         while True:
             time.sleep(1.5)
-            self.cap.cameraCapture() 
             self.sr.kuri_speak("How may I help you?")
             self.sr.response(self.sr.getSpeech()) 
-            self.sr.kuri_speak("This is what I found!")
-            if not self.sr.getSpeech():
-                self.sr.kuri_speak("\nCould you say that again?")
-            # else:
-            #     sentiment = self.sd.getSentiment(self.sr.getSpeech())
-            #     proc_stdin.write(sentiment + '\n')
-            #     print("Sentiment: " + sentiment + '\n')
 
 
 def RunKuriProgram():

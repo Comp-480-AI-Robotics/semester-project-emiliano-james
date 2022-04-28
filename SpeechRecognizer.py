@@ -107,14 +107,23 @@ class SpeechRecognizer:
                 self.calculateAdd()
             elif "subtract" in voice_data:
                 self.calculateSub() 
+            # elif "tip" in voice_data:
+            #     self.calculateTip() 
+            elif "dice" in voice_data:
+                self.rollDie()
             elif "flip a coin" in voice_data: 
                 self.odds() 
             elif "goodbye" in voice_data: 
                 self.kuri_speak("Ok, Goodbye")
                 quit() 
+            else: 
+                self.kuri_speak("Sorry, I don't seem to know that command yet")
+                self.kuri_speak("Is there anything else I can help you with?")
+
             while 1:
                 voice_data = self.getSpeech() 
                 self.response(voice_data)
+
 
     def odds(self): 
         randomInt = random.randint(1,2)
@@ -123,8 +132,11 @@ class SpeechRecognizer:
         else:
             self.kuri_speak("It was Tails")
         self.kuri_speak("Is there anything else I can help you with?")
-        
-        pass 
+    def roleDie(self):
+        randomSide = random.randint(1,6)
+        self.kuri_speak("It landed on " + str(randomSide))
+
+
     def grabWeather(self):
         """
         Summary: This functions makes and api request call to weather api passing it parameters of the requested city gathering 
@@ -196,6 +208,14 @@ class SpeechRecognizer:
             finalVal = firstVar-secondVar
             self.kuri_speak(str(finalVal))
             self.kuri_speak("Is there anything else I can help you with?")
+
+    # def calculateTip(self):
+    #     self.kuri_speak("What is the total amount on your bill?")
+    #     billAmount = self.getSpeech() 
+    #     self.kuri_speak("How much would you like to tip?")
+    #     tipPercent = self.getSpeech() 
+    #     self.kuri_speak(str(int(billAmount)*(int(tipPercent)/100)) + " dollars is what you should tip")
+    #     self.kuri_speak("Is there anything else I can help you with?")
             
     def grab_joke(self, language="en"):
         """
