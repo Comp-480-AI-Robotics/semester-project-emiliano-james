@@ -13,40 +13,19 @@ class FacialRecognizer:
             self.faceCascade = cv2.CascadeClassifier('haarscascade/haarcascade_frontalface_default.xml')
             self.name = ''
 
-
-#    def cameraCapture(self):
-#       while True:
-#             # Capture frame-by-frame
-#             ret, frames = self.cap.read()
-#             gray = cv2.cvtColor(frames, cv2.COLOR_BGR2GRAY)
-
-#             faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
-#             # Draw a rectangle around the faces
-#             for (x, y, w, h) in faces:
-#                   cv2.rectangle(frames, (x, y), (x+w, y+h), (0, 255, 0), 2)
-#             # Display the resulting frame
-#             cv2.imshow('Webcam', frames)
-#             if cv2.waitKey(1) & 0xFF == ord('q'):
-#                   break
-#             break 
-
-#       # When everything is done, release the capture
-#       self.cap.release()
-#       cv2.destroyAllWindows()  
-
-      # TODO: (1) ask if first time user --> record face for data training or if face not found in the database
-      # (2) If not, then recognize face 
-
       faces_encodings = []
       faces_names = []
       cur_direc = os.getcwd()
       print(cur_direc)
       path = os.path.join(cur_direc, 'faces/')
+      # iterate through a list of files and grab any with the extension .jpg
       list_of_files = [f for f in glob.glob(path+'*.jpg')]
       number_files = len(list_of_files)
+      # as long as the file name ends in .jpg it will grab the begininning part and use it as the name 
       names = list_of_files.copy()
 
       for i in range(number_files):
+
             globals()['image_{}'.format(i)] = face_recognition.load_image_file(list_of_files[i])
             globals()['image_encoding_{}'.format(i)] = face_recognition.face_encodings(globals()['image_{}'.format(i)])[0]
             faces_encodings.append(globals()['image_encoding_{}'.format(i)])
@@ -66,10 +45,16 @@ class FacialRecognizer:
             small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)    
             rgb_small_frame = small_frame[:, :, ::-1]    
             if process_this_frame:
+                  # For face recognition, the algorithm notes certain important measurements on the face — 
+                  # like the color and size and slant of eyes, the gap between eyebrows, etc. 
+                  # All these put together define the face encoding
+                  # gathers the positon of frame where the face resides 
                   face_locations = face_recognition.face_locations(rgb_small_frame)
+                  # gathers the face encodings for the face 
                   face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)        
                   face_names = []
                   for face_encoding in face_encodings:
+                        # compares the known faces and sees if it is already in current filesystem by comparing facial encodings 
                         matches = face_recognition.compare_faces (faces_encodings, face_encoding)
                         name = "Unknown"            
                         face_distances = face_recognition.face_distance(faces_encodings, face_encoding)
@@ -98,3 +83,8 @@ class FacialRecognizer:
 
 
       
+# update the region of t=intrest within the frame in real time 
+# im.write to save that image and save to image dir 
+# destory window closes just the camera window , gather start time -- while loop - gather current time and when they exceed a certain amoung loop ends 
+# whatever we need coccurs in the while loop -- once we are done with data we break out of the loop then we close the window wirth window destroy 
+# maybe have sa timestamo with the image so they save to different folders 

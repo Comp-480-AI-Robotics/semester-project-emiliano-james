@@ -6,3 +6,5 @@ gTTS
 playsound
 pyobjc
 pyjokes
+imutils
+face_recognition
