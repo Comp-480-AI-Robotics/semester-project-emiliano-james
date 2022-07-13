@@ -1,5 +1,5 @@
 # Kuri Robot Simulation
-![](https://us-central1-progress-markdown.cloudfunctions.net/progress/10)
+![](https://us-central1-progress-markdown.cloudfunctions.net/progress/75)
 
 This project presents a simulation of the [Kuri robot](https://www.heykuri.com/explore-kuri/).
 The Kuri robot will change its facial expression and heart light color depending on the sentiment of the text given by the 
